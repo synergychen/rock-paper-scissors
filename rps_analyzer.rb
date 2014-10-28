@@ -6,14 +6,17 @@ class RpsAnalyzer
     @ai_rps = ai_rps
   end
 
-  def show_winner
+  def get_score_and_show_winner
     compare_result = RPS.index(@user_rps) - RPS.index(@ai_rps)
     if user_win?(compare_result)
       puts "Player beats AI"
+      1
     elsif ai_win?(compare_result)
       puts "AI beats Player"
+      -1
     else
       puts "Tie game"
+      0
     end
   end
 
@@ -29,6 +32,3 @@ class RpsAnalyzer
     ai_win_case.include?(compare_result)
   end
 end
-
-# rps_analyzer = RpsAnalyzer.new("R", "S")
-# rps_analyzer.show_winner

@@ -6,12 +6,14 @@ class PlayRPS
   def initialize(total_round_number)
     @total_round_number = total_round_number
     @play_mode = "random"
+    @final_scores = []
   end
 
   def play
     @total_round_number.times do |round_number|
       play_round(round_number)
     end
+    show_total_scores
   end
 
   private
@@ -25,7 +27,16 @@ class PlayRPS
 
     puts "AI played " + ai_rps
     rps_analyzer = RpsAnalyzer.new(user_rps, ai_rps)
-    rps_analyzer.show_winner
+    @final_scores << rps_analyzer.get_score_and_show_winner
+  end
+
+  def show_total_scores
+    total_score = @final_scores.count(1) / @final_scores.count.to_f
+    puts to_percent_of(total_score)
+  end
+
+  def to_percent_of(total_score)
+    puts "You won #{(total_score * 100).round.to_s}% of hands so far"
   end
 
   def get_user_rps
