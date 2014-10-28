@@ -1,20 +1,32 @@
+require "./rps_analyzer"
+
 class PlayRPS
   RPS = ["R", "P", "S"]
 
-  def play
-    play_a_round
+  def initialize(total_round_number)
+    @total_round_number = total_round_number
+    @play_mode = "random"
   end
 
-  def play_a_round
-    print "Your move? (R/P/S, q to quit) >"
-    play_mode = "random"
-    user_rps = get_user_rps
-    ai_rps = get_ai_rps(play_mode)
-    puts "AI played " + ai_rps
-    show_winner(user_rps, ai_rps)
+  def play
+    @total_round_number.times do |round_number|
+      play_round(round_number)
+    end
   end
 
   private
+
+  def play_round(round_number)
+    puts "=== Play round #{round_number + 1} ==="
+    print "Your move? (R/P/S, q to quit) > "
+
+    user_rps = get_user_rps
+    ai_rps = get_ai_rps(@play_mode)
+
+    puts "AI played " + ai_rps
+    rps_analyzer = RpsAnalyzer.new(user_rps, ai_rps)
+    rps_analyzer.show_winner
+  end
 
   def get_user_rps
     gets.chomp
@@ -25,26 +37,7 @@ class PlayRPS
       RPS.sample
     end
   end
-
-  def show_winner(user_rps, ai_rps)
-    compare_result = RPS.index(user_rps) - RPS.index(ai_rps)
-    if user_win?(compare_result)
-      puts "Player beats AI"
-    elsif ai_win?(compare_result)
-      puts "AI beats Player"
-    else
-      puts "equal"
-    end
-  end
-
-  def user_win?(compare_result)
-    compare_result == -2 || compare_result == 1
-  end
-
-  def ai_win?(compare_result)
-    compare_result == -1 || compare_result == 2
-  end
 end
 
-game = PlayRPS.new
-game.play_a_round
+game = PlayRPS.new(3)
+game.play
