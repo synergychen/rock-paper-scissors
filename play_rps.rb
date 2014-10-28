@@ -1,11 +1,12 @@
 require "./rps_analyzer"
+require "./ai"
 
 class PlayRPS
   RPS = ["R", "P", "S"]
 
   def initialize(total_round_number)
     @total_round_number = total_round_number
-    @play_mode = "random"
+    @game_mode = "ai_loss"
     @final_scores = []
   end
 
@@ -23,7 +24,7 @@ class PlayRPS
     print "Your move? (R/P/S, q to quit) > "
 
     user_rps = get_user_rps
-    ai_rps = get_ai_rps(@play_mode)
+    ai_rps = get_ai_rps(user_rps)
 
     puts "AI played " + ai_rps
     rps_analyzer = RpsAnalyzer.new(user_rps, ai_rps)
@@ -43,12 +44,12 @@ class PlayRPS
     gets.chomp
   end
 
-  def get_ai_rps(play_mode)
-    if play_mode == "random"
-      RPS.sample
-    end
+  def get_ai_rps(user_rps)
+    ai = AI.new(user_rps, @game_mode)
+    ai.get_rps
   end
 end
 
-game = PlayRPS.new(3)
+game_rounds = 3
+game = PlayRPS.new(game_rounds)
 game.play
