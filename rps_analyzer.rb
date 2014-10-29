@@ -1,3 +1,5 @@
+# require "./play_rps"
+
 class RpsAnalyzer
   def initialize(user_rps, ai_rps)
     @user_rps = user_rps
@@ -9,13 +11,13 @@ class RpsAnalyzer
     compare_result = @RPS_values.index(@user_rps) - @RPS_values.index(@ai_rps)
     if user_win?(compare_result)
       puts "Player beats AI"
-      1
+      "player_win"
     elsif ai_win?(compare_result)
       puts "AI beats Player"
-      -1
+      "ai_win"
     else
       puts "Tie game"
-      0
+      "tie_game"
     end
   end
 

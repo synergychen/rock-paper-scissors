@@ -9,9 +9,9 @@ class AI
     if @game_mode == "random"
       get_random_rps
     elsif @game_mode == "ai_win"
-      ai_always_win_rps
+      get_rps_of_ai_win
     elsif @game_mode == "ai_loss"
-      ai_always_loss_rps
+      get_rps_of_ai_loss
     end
   end
 
@@ -21,12 +21,12 @@ class AI
     @RPS_values.sample
   end
 
-  def ai_always_win_rps
+  def get_rps_of_ai_win
     index_of_next_rps = @RPS_values.index(@user_rps).next % 3
     @RPS_values[index_of_next_rps]
   end
 
-  def ai_always_loss_rps
+  def get_rps_of_ai_loss
     index_of_previous_rps = @RPS_values.reverse.index(@user_rps).next % 3
     @RPS_values.reverse[index_of_previous_rps]
   end
